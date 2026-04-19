@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Download, BookOpen, Calculator, Globe, Code, FlaskConical, Library } from 'lucide-react';
+import api from '../../../../services/api';
 
-const LOCAL_URL = 'http://localhost:3000'; // Make sure this matches your Express config
 
 // Helper to assign colors based on category
 const getCategoryColor = (category) => {
@@ -39,10 +39,9 @@ const Recursos = () => {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const res = await fetch(`${LOCAL_URL}/api/resources`);
-        const json = await res.json();
-        if (json.success) {
-          setRecursosList(json.data);
+        const res = await api.get('/resources');
+        if (res.data.success) {
+          setRecursosList(res.data.data);
         }
       } catch (error) {
         console.error("Error fetching resources:", error);
